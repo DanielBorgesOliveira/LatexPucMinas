@@ -1,0 +1,794 @@
+% Esse comando especifica o formato que o documento deve ser processado.
+\NeedsTeXFormat{LaTeX2e}
+
+\input{cvs-id.def}
+\CVSExtract$Id: abakos.sty,v 0.1 2012/29/08 15:08:25 Fabio Cordeiro Exp $
+\CVSPackage{abakos}{} %substitui \ProvidesPackage (replaces \ProvidesPackage)
+
+% ********** Pacotes ********** %
+
+\usepackage{media9}
+
+% Modifica primeira letra da frase para maiuscula
+\usepackage{mfirstuc}
+
+% Letras gregas em modo texto.
+\usepackage{textgreek}
+
+% Usado para rotacionar figuras
+\usepackage{rotating}
+
+% Pacotes de codificação das fontes para português
+\usepackage[T1]{fontenc}
+% Usa o fonte Times New Roman como Padrão
+\usepackage{times}
+% Pacote para flutuar objetos no texto
+\usepackage{float}
+% Mescla células (linhas diferentes)
+\usepackage{multirow}
+% Cabeçalho e rodapé
+\usepackage{fancyhdr}
+% Pacote para divisão silábica do portugues
+\usepackage[english, brazilian]{babel}
+% Formatar as liastas (figuras, tabelas, simbolos, etc.)
+\usepackage[titles]{tocloft}
+
+% para usar Striker math
+\usepackage{amssymb}
+\usepackage{pdfpages}
+\usepackage[hyphens]{url}
+\usepackage[hidelinks,bookmarks,bookmarksopen,bookmarksdepth=4]{hyperref} %hyperref most be before abntex2cite
+\usepackage[notbib]{tocbibind}
+
+\usepackage[brazilian,hyperpageref]{backref}
+
+% \usepackage{cite}
+%\usepackage{abntex2-alf}
+
+
+% Pacote para controle do espaçamento entre linhas.
+\usepackage{setspace}
+
+% Codificacao do documento (conversão automática dos acentos)
+\usepackage[utf8]{inputenc}
+
+\usepackage{graphicx}
+%\usepackage[linesnumbered, plain, vlined]{algorithm2e}
+%\usepackage{algorithmicx}
+%\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+% Espaçamento variavel
+\usepackage{leading}
+
+\usepackage{needspace} % Package to make a linebreak if a needed space is not available.
+
+% Number fomartation.
+\usepackage[%
+  locale = FR,
+  group-separator={.},
+  round-mode=places,
+  round-precision=2,
+  %output-decimal-marker = {,}
+]{siunitx}
+
+% Appendix Package
+\usepackage[toc,page]{appendix}
+\renewcommand{\appendixname}{Ap\^endice}
+\renewcommand{\appendixtocname}{AP\^ENDICE}
+\renewcommand\appendixpagename{Ap\^endice}
+
+% ********** Coisas Genéricas ********** %
+% espaço entre Numero e Título da seção
+\newcommand{\esp}{\hspace{-0.3cm}}
+
+% ********** Customise the captions in floating environments. ********** %
+\usepackage[format=hang,font=bf,justification=centerlast,labelfont=bf,labelsep=endash]{caption}
+
+\captionsetup[figure]{labelsep=endash,labelfont={bf},textfont=bf}
+\captionsetup[table]{labelsep=endash,labelfont={bf},textfont=bf}
+\captionsetup[algorithm]{labelsep=endash,labelfont={bf},textfont=bf} 
+% ********** ********* *** ******** ** ******** ************* ********** %
+
+% ********** Formatar equações ********** %
+\usepackage{amsmath}
+
+%\DeclareMathSizes{ Dysplay Size }{ Text Size }{ Script Size }{ Script Script Size}
+\DeclareMathSizes{12}{12}{12}{6}   % For size 10 text
+% ********** ******** ******** ********** %
+
+% ********** Margens ********** %
+\usepackage[a4paper, portrait, tmargin=30mm,bmargin=20mm,lmargin=30mm,rmargin=30mm]{geometry}
+\geometry{tmargin=30mm,bmargin=20mm,lmargin=30mm,rmargin=20mm}
+% ********** ******* ********** %
+
+\usepackage[perpage,para,symbol*]{footmisc}
+\usepackage{titlesec}
+\usepackage{chngcntr} 
+\usepackage{indentfirst}
+\usepackage{tikz}
+% ocultar numeração de páginas vazias
+\usepackage{emptypage}
+% mostrar numeração primeira página bibliografia
+\usepackage{etoolbox}
+
+
+% Usado para definir acentos em baixo dos caracteres
+\usepackage{accents}
+
+% ********** ******* ********** %
+
+%Numeração de páginas em arábico.
+\pagenumbering{arabic}
+
+
+% ********** Cabeçalho e Rodapé ********** %
+\thispagestyle{fancy}
+\fancyhf{}
+\fancyheadoffset{0cm}
+\renewcommand{\headrulewidth}{0pt} 
+\renewcommand{\footrulewidth}{0pt}
+\fancyhead[R]{\thepage}
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyhead[R]{\thepage}%
+}
+% ********** ********* * ****** ********** %
+
+
+% Alterar o espaçamento da margem no algoritmo
+%\setlength{\algomargin}{1em}
+
+% -- Legenda das Figuras --
+\floatstyle{plaintop}
+\restylefloat{table}
+\restylefloat{figure}
+ 
+%%%%%%Utilizar simbolos como nota de rodapé [* 
+ \long\def\symbolfootnote[#1]#2{\begingroup%
+ \def\thefootnote{\fnsymbol{footnote}}\footnote[#1]{#2}\endgroup}
+
+%%%%%%%%%% Identação de nota de rodapé %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\footnotemargin}{0pt} %identação da nota de rodapé 
+\renewcommand{\footnotelayout}{\hspace{0px}}% Espaço entre simbolo do rodapé e layout texto 
+
+%%%% traduzir caption de figuras e tabelas %%%%%%%%%%%%%%%%%
+\addto\captionsbrazilian{
+\renewcommand{\figurename}{Figura}
+\renewcommand{\tablename}{Tabela}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % % Citação direta 
+\newenvironment{citacaodireta}{%
+  \begin{list}{}{%
+    \small
+    \setlength{\leftmargin}{4cm}
+    \singlespacing
+  }
+  \item\relax
+}{\end{list}}
+
+%%%%%%%%%% Configurar item de sumário %%%%%%%%%%
+% \usepackage[tocflat]{tocstyle}
+% --- Titulo de secao ---
+\beforetitleunit=1ex\@plus.3ex\@minus.06ex
+\aftertitleunit=1ex\@plus.1ex
+
+%\pagestyle {empty}
+\pagestyle {myheadings}
+
+% ********** Seção de 1° nível ********** %
+\renewcommand\chapter{
+    \if @openright
+        \cleardoublepage
+    \else
+        \clearpage
+    \fi
+    \thispagestyle{empty}%
+    \global\@topnum\z@
+    \@afterindentfalse
+    \secdef\@chapter\@schapter
+}
+
+% Formata o título da seção numerada de primeiro nível.
+\renewcommand{\@makechapterhead}[1]{%
+  \thispagestyle{myheadings}
+  \noindent{\uppercase{\textbf{\thechapter~#1}}}
+  \vspace{1.5\baselineskip}
+}
+
+% Formata o título da seção não numerada de primeiro nível.
+% Usado para formatar os títulos dos apêndices e formatar o
+% título da lista de refências.
+\def\@makeschapterhead#1{
+	\pagestyle{myheadings}
+	\begin{center}
+		\textbf{#1}\par
+	\end{center}
+	\vspace{1.5\baselineskip}
+	\setcounter{secnumdepth}{1} % Mostrar indice
+	\setcounter{tocdepth}{1}    % no sumário
+}
+
+% ********** Seção de 2° nível ********** %
+\renewcommand{\section}{%
+\needspace{.25\textheight}% Quebra a linha se houver pouco espaço.
+\@startsection%
+{section}% Nome
+{0}% Nivel
+{0mm}% Indentacao
+{1.5\baselineskip}% Antes do paragrafo
+{1.5\baselineskip}% Depois do paragrafo
+{\noindent\bfseries}% Estilo
+}
+
+% ********** Seção de 3° nível ********** %
+\renewcommand{\subsection}{%
+\needspace{.25\textheight}% Quebra a linha se houver pouco espaço.
+\@startsection%
+{subsection}% Nome
+{1}% Nivel
+{0mm}% Indentacao
+{1.5\baselineskip}% Antes do paragrafo
+{1.5\baselineskip}% Depois do paragrafo
+{\noindent\bfseries}% Estilo
+}
+% ********** ****** ** ***** ** ** ***** ********** %
+
+% ********** Seção de 4° nível ********** %
+\renewcommand{\subsubsection}{%
+\needspace{.25\textheight}% Quebra a linha se houver pouco espaço.
+\@startsection%
+{subsubsection}% Nome
+{2}% Nivel
+{0mm}% Indentacao
+{1.5\baselineskip}% Antes do paragrafo
+{1.5\baselineskip}% Depois do paragrafo
+{\noindent\itshape}% Estilo
+}
+
+% ********** Seção de 5° nível ********** %
+\setcounter{secnumdepth}{3} % Profundidade da numeração das seções.
+\setcounter{tocdepth}{3} % Profundidade da numeração do sumário.
+%\chapter{} %level 1
+%\section{} % level 2
+%\subsection{} % level 3
+%\subsubsection{} % level 4
+%\paragraph{} % level 5
+%\subparagraph{} % level 6
+
+\renewcommand{\paragraph}{%
+\needspace{.25\textheight}% Quebra a linha se houver pouco espaço.
+\@startsection%
+{paragraph}% Nome
+{3}% Nível.
+{\z@}% Identação.
+{1.5\baselineskip}% Antes do paragrafo.
+{1.5\baselineskip}% Depois do paragrafo.
+{\normalfont}% Estilo
+}
+
+% Para usar Fonte em algoritmos, gráficos, tabelas e quadros.
+%\newcommand{\floatFonte}[1]{\vspace{\abovecaptionskip}\caption*{\textbf{Fonte:} #1}\vspace{-\abovecaptionskip}}
+% ********** ****** ** ***** ** ** ***** ********** %
+
+% ********************************* Lista de Referencias ********************************* %
+
+% Biblatex
+%\usepackage[backend=biber,style=abnt]{biblatex}\addbibresource{bibliografia.bib}
+
+% ABNTex2Cite
+\usepackage[alf,abnt-full-initials=yes,abnt-emphasize=bf]{abntex2cite}
+    
+% Comando para citação individual de Autor e Ano
+\newcommand{\citeAutorAno}[1]{\citeauthoronline{#1} (\citeyear{#1})}
+\newcommand{\citeCitacao}[1]{\textsc{\cite{#1}}}
+
+\newcommand{\referencias}[1]
+{
+  % Nome no sumário
+  \renewcommand*{\bibname}{\uppercase{REFERÊNCIAS}}
+
+  % retirar espaçamento
+  \cleardoublepage %garantir início em página ímpar
+  \pagestyle{myheadings} %mostrar numeração de página
+  %\setlength{\baselineskip}{1.5\baselineskip} % Espacamento: 0.7
+    
+    % Biblatex
+    %\begin{center}
+	%	\textbf{REFERÊNCIAS} \\ [1.5\baselineskip]
+	%\end{center}
+	%\printbibliography[title={\uppercase{REFER\^ENCIAS}}, heading=none]
+	
+	% abntcite
+	\bibliography{#1}
+	\clearpage %garantir numeração na última página
+}
+
+% ********** ***** ** *********** ********** %
+
+% ********************************* Lista de Figuras ********************************* %
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+
+\renewcommand{\cftfigpresnum}{FIGURA \ }
+%\setlength{\cftfignumwidth}{}
+%\renewcommand{\cftfigaftersnum}{ \ -- \ }
+\setlength{\cftfignumwidth}{\dimexpr 7em}
+\renewcommand\cftfigaftersnum{\enspace--\enspace}
+\renewcommand{\thefigure}{\arabic{figure}}
+
+\newcommand{\listafiguras}
+{
+\begin{newpage}
+	\thispagestyle{empty}
+	\setlength{\baselineskip}{1.5\baselineskip} % Espacamento: 1.5
+
+	\begin{center}
+		\textbf{LISTA DE FIGURAS} \\ [1.5\baselineskip]
+	\end{center}
+	\@starttoc{lof}
+\end{newpage}
+}
+
+% ********************************* ***** ** ******* ********************************* %
+
+% ********************************* Lista de Tabelas ********************************* %
+\renewcommand{\cfttabpresnum}{TABELA \ }
+\setlength{\cfttabnumwidth}{7.2em}
+\renewcommand{\cfttabaftersnum}{ \ -- \ }
+\renewcommand{\thetable}{\arabic{table}}
+
+\newcommand{\listatabelas}
+{
+\begin{newpage}
+	\thispagestyle{empty}
+	\setlength{\baselineskip}{1.5\baselineskip} % Espacamento: 1.5
+
+	\begin{center}
+		\textbf{LISTA DE TABELAS} \\ [1.5\baselineskip]
+	\end{center}
+	\@starttoc{lot}
+\end{newpage}
+}
+% ********************************* ***** ** ******* ********************************* %
+
+% ********************************* Lista de Exemplos ********************************* %
+%\usepackage[intoc, portuguese]{nomencl}
+%\renewcommand{\nomname}{\makebox[\linewidth]{}}
+%\renewcommand{\nomentryend}{.}
+%\makenomenclature
+%\usepackage{ifthen}
+% The order will be 1. variables, 2. constants
+% because A comes before B
+%\renewcommand{\nomgroup}[1]{%
+%    \ifthenelse{\equal{#1}{A}}{
+%        \item[\uppercase{\textbf{Lista de Abreviaturas e Siglas}}]}
+%    {\ifthenelse{\equal{#1}{S}}{\item[\uppercase{\textbf{Lista de S\'imbolos}}]}
+%    }
+%}
+
+% ********************************* Lista de Abreviaturas e Siglas ********************************* %
+%\RequirePackage{tocloft}
+\newcommand{\acronymlistname}{\uppercase{Lista de Abreviaturas e Siglas}}
+\newlistof{sigla}{list0}{\acronymlistname}
+
+\usepackage{ifthen}
+
+\newcommand{\sigla}[3]
+{% Adiciona a sigla nas lista e imprime a descrição da sigla.
+	\ifthenelse{\equal{#3}{1}}%
+	{#2 (\hyperlink{sigla}{#1})\refstepcounter{sigla}\addtocontents{list0}{\protect #1 \ -- \ #2 \\}}%
+	% Somente imprime a sigla.
+	{\hyperlink{sigla}{#1}}%
+}
+
+% A lista de siglas deve ser ordenada em ordem alfabética.
+% Para que isso seja pessível é necessário executar os comandos abaixo:
+% latex main.tex
+% sort -k4 main.lof > a.lof; mv a.lof main.lof
+% latex main.tex
+% https://tex.stackexchange.com/questions/200956/lof-alphabetically-sorted
+
+\newcommand{\listadesiglas}
+{
+	\hypertarget{sigla}
+	{
+			\begin{newpage}
+				\thispagestyle{empty}
+				\setlength{\baselineskip}{1.5\baselineskip} % Espacamento: 1.5
+				\begin{center}
+						\textbf{\acronymlistname} \\ [1.5\baselineskip]
+				\end{center}
+				\@starttoc{list0}
+					\newpage
+			\end{newpage}
+	}
+}
+
+% ********************************* Lista de Símbolos ********************************* %
+%\RequirePackage{tocloft}
+\newcommand{\ListSymbolName}{\uppercase{Lista de Símbolos}}
+\newlistof{simbolo}{list1}{\ListSymbolName}
+
+\newcommand{\simbolo}[3]
+{%
+	% Adiciona o simbolo na lista de simbolos e exibe o simbolo no texto.
+	\ifthenelse{\equal{#3}{1}}%
+	{\hyperlink{simbolo}{#1} = #2\refstepcounter{simbolo}\addtocontents{list1}{\protect #1 \ -- \ #2 \\}}%
+	{% Cita o simbolo no format "simbolo (descrição)" e adiciona na lista de simbolos.
+		\ifthenelse{\equal{#3}{2}}%
+		{\MakeLowercase{#2} (\hyperlink{simbolo}{#1})\refstepcounter{simbolo}\addtocontents{list1}{\protect #1 \ -- \ #2 \\}}%
+		{% Somente cita o simbolo já adicionado
+			\ifthenelse{\equal{#3}{0}}%
+			{\hyperlink{simbolo}{#1}}%
+		}%
+	}%
+}%
+
+\newcommand{\listadesimbolos}
+{
+	\hypertarget{simbolo}{
+		\begin{newpage}
+			\thispagestyle{empty}
+			\setlength{\baselineskip}{1.5\baselineskip} % Espacamento: 1.5
+			\begin{center}
+				\textbf{\ListSymbolName} \\ [1.5\baselineskip]
+			\end{center}
+			\@starttoc{list1}
+						\newpage
+		\end{newpage}
+	}
+}
+
+% ********************************* Lista Fotos ********************************* %
+\newlistof{fotos}{list2}{LISTA DE FOTOS}
+
+% Cria um novo ambiente para objetos fluantes.
+% \newfloat{name}{placement}{ext}[outer counter]
+\newfloat{Fotos}{H}{log}
+\floatname{Fotos}{Foto}
+\floatstyle{plaintop}
+
+% Cria um novo ambiente para inserir as fotos.
+\newcommand{\fotos}[1]{%
+	\begin{Fotos}
+		\refstepcounter{fotos}
+		\par\noindent\caption*{\textbf{Foto \thefotos: #1}}
+		\addcontentsline{list2}{fotos}{FOTO \protect\numberline{\thefotos\ -- \ }\ #1}
+	\end{Fotos}
+}
+\restylefloat{Fotos}
+
+% Comando para criar o sumário de fotos.
+\newcommand{\listadefotos}
+{
+\begin{newpage}
+	\thispagestyle{empty}
+	\setlength{\baselineskip}{1.5\baselineskip} % Espacamento: 1.5
+
+	\begin{center}
+		\textbf{LISTA DE FOTOS} \\ [1.5\baselineskip]
+	\end{center}
+	\@starttoc{list2}
+\end{newpage}
+}
+
+% ********************************* Lista de Quadros ********************************* %
+%\RequirePackage{float}
+%\RequirePackage{tocloft}
+
+\newcommand{\quadref}[1]{QUADRO \ref{#1}}
+
+\newcommand{\listQuadrosname}{LISTA DE QUADROS}
+\newlistof{quadro}{qud}{\listQuadrosname}
+\floatstyle{plain}
+\newfloat{Quadros}{H}{loq}
+\floatname{Quadros}{QUADRO}
+\restylefloat{Quadros}
+
+\newenvironment{quadro}
+{\refstepcounter{quadro}
+
+\addcontentsline{qud}{quadro}{\numberline{Quadro \thequadro\ }}
+\begin{Quadros}\begin{center}
+}
+{\end{center}\end{Quadros}}
+
+\newlistof{quadros}{exp}{\listQuadrosname}
+\newcommand{\quadros}[1]{%
+\refstepcounter{quadros}
+\par\noindent{\textbf{Quadro \thequadros: #1}}
+\addcontentsline{exp}{quadros}{QUADRO \protect\numberline{\thequadros\ -- \ }#1}\par}
+
+\newcommand{\listaquadros}
+{
+\begin{newpage}
+	\thispagestyle{empty}
+	\setlength{\baselineskip}{1.5\baselineskip} % Espacamento: 1.5
+
+	\begin{center}
+		\textbf{LISTA DE QUADROS} \\ [1.5\baselineskip]
+	\end{center}
+	\@starttoc{exp}
+\end{newpage}
+}
+
+%\addcontentsline{toc}{chapter}{LISTA DE QUADROS}
+
+% ********************************* Lista de Gráficos ********************************* %
+%\RequirePackage{float}
+%\RequirePackage{tocloft}
+
+\newcommand{\grafref}[1]{Gráfico \ref{#1}}
+
+\newcommand{\listGraficosname}{LISTA DE GRÁFICOS}
+\newlistof{grafico}{gud}{\listGraficosname}
+\floatstyle{plaintop}
+\newfloat{Graficos}{H}{log}
+\floatname{Graficos}{Gráfico}
+
+\newenvironment{grafico}
+{\refstepcounter{grafico}
+
+\addcontentsline{gud}{grafico}{\numberline{Gráfico \thegrafico\ }}
+\begin{Graficos}\begin{center}
+}
+{\end{center}\end{Graficos}}
+
+\newlistof{graficos}{exg}{\listGraficosname}
+\newcommand{\graficos}[1]{%
+\refstepcounter{graficos}
+\par\noindent\caption*{\textbf{Gráfico \thegraficos: #1}}
+\addcontentsline{exg}{graficos}{GRÁFICO \protect\numberline{\thegraficos\ -- \ }\ #1}\par}
+\restylefloat{Graficos}
+
+\newcommand{\listagraficos}
+{
+\begin{newpage}
+	\thispagestyle{empty}
+	\setlength{\baselineskip}{1.5\baselineskip} % Espacamento: 1.5
+
+	\begin{center}
+		\textbf{LISTA DE GRÁFICOS} \\ [1.5\baselineskip]
+	\end{center}
+	\@starttoc{exg}
+\end{newpage}
+}
+
+
+%\addcontentsline{toc}{chapter}{LISTA DE GRÁFICOS}
+
+% ********************************* Lista de Algoritmos ********************************* %
+\usepackage{color} % Define cores
+
+% https://texblog.org/2011/04/19/highlight-table-rowscolumns-with-color/
+\usepackage{colortbl} % Colore celulas de tabelas
+
+% Cores da tabela de relação entre espessura da malha e cor.
+\definecolor{cor1}{rgb}{0.05098039, 1.        , 0.05098039}
+\definecolor{cor2}{rgb}{0.        , 0.        , 0.94117647}
+\definecolor{cor3}{rgb}{1.        , 1.        , 0.05098039}
+\definecolor{cor4}{rgb}{0.05098039, 1.        , 1.        }
+\definecolor{cor5}{rgb}{1.        , 0.05098039, 1.        }
+\definecolor{cor6}{rgb}{0.9372549 , 0.20784314, 0.08627451}
+\definecolor{cor7}{rgb}{0.50588235, 0.01960784, 0.09019608}
+\definecolor{cor8}{rgb}{0.0745098 , 0.17254902, 0.44313725}
+\definecolor{cor9}{rgb}{0.99607843, 0.50980392, 0.34509804}
+\definecolor{cor10}{rgb}{0.796078431372549, 0.403921568627451, 0.3803921568627451}
+\definecolor{cor11}{rgb}{0.7019607843137254, 0.47843137254901963, 0.10196078431372549}
+\definecolor{cor12}{rgb}{0.1803921568627451, 0.2980392156862745, 0.42745098039215684}
+
+\definecolor{red}{rgb}{1, 0, 0}
+\definecolor{green}{rgb}{0, 1, 0}
+\definecolor{blue}{rgb}{0, 0, 1}
+\definecolor{yellow}{rgb}{1, 1, 0}
+
+\definecolor{mygray}{cmyk}{0.5, 0.0, 0.0, 1.0}
+\definecolor{Green}{cmyk}{1.0, 0.0, 1.0, 0.0}
+\definecolor{NavyBlue}{cmyk}{1.0, 0.8, 0.0, 0.1}
+
+\definecolor{DarkMagenta}{cmyk}{0, 1, 0, 0.45}
+\definecolor{DarkGreen}{cmyk}{0.98, 0, 0.36, 0.80}
+\definecolor{DarkCyan}{cmyk}{1, 0, 0, 0.45}
+
+
+
+\usepackage{listings} % Package to print source code on text
+
+% Define style to listings
+\lstset{
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\normalsize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=t,                    % sets the caption-position to top
+  commentstyle=\color{DarkMagenta},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  %frame=single,                    % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{DarkCyan},       % keyword style
+  %language=Python,                 % the language of the code
+  otherkeywords={*,...},           % if you want to add more keywords to the set
+  numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=10pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{darkgray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{DarkGreen},     % string literal style
+  tabsize=2,                       % sets default tabsize to 2 spaces
+  title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+  literate=%
+    {á}{{\'a}}1
+    {Á}{{\'A}}1
+    {Â}{{\~A}}1
+    {ã}{{\~a}}1
+    {â}{{\^a}}1
+    {í}{{\'i}}1
+    {Í}{{\'I}}1
+    {é}{{\'e}}1
+    {ê}{{\^e}}1
+    {ě}{{\v{e}}}1
+    {Ě}{{\v{E}}}1
+    {É}{{\'E}}1
+    {ý}{{\'y}}1
+    {ú}{{\'u}}1
+    {ó}{{\'o}}1
+    {Ó}{{\'O}}1
+    {Õ}{{\~O}}1
+    {õ}{{\~o}}1
+    {ô}{{\^o}}1
+    {š}{{\v{s}}}1
+    {č}{{\v{c}}}1
+    {ř}{{\v{r}}}1
+    {ž}{{\v{z}}}1
+    {ď}{{\v{d}}}1
+    {ť}{{\v{t}}}1
+    {ň}{{\v{n}}}1
+    {ů}{{\r{u}}}1
+    {Ý}{{\'Y}}1
+    {Ú}{{\'U}}1
+    {Š}{{\v{S}}}1
+    {Č}{{\v{C}}}1
+    {ç}{{\c{c}}}1
+    {Ç}{{\c{Ç}}}1
+    {Ř}{{\v{R}}}1
+    {Ž}{{\v{Z}}}1
+    {Ď}{{\v{D}}}1
+    {Ť}{{\v{T}}}1
+    {Ň}{{\v{N}}}1
+    {Ů}{{\r{U}}}1
+    {º}{{\textdegree}}1
+    {_}{{\_}}1
+}
+\renewcommand{\lstlistlistingname}{Lista de \normalsize{\textbf{Algoritmo}} s}% List of Listings -> List of Algorithms
+\renewcommand{\lstlistingname}{Algoritmo}
+
+%\RequirePackage{float}
+%\RequirePackage{tocloft}
+
+%\SetAlgorithmName{Algoritmo}{algoritmo}{LISTA DE ALGORITMOS}
+
+\newcommand{\algoref}[1]{Algoritmo \ref{#1}}
+
+\newcommand{\listAlgoritmosname}{LISTA DE ALGORITMOS}
+\newlistof{algoritmo}{aud}{\listAlgoritmosname}
+\floatstyle{plain}
+\newfloat{Algoritmos}{H}{loa}
+\floatname{Algoritmos}{Algoritmo}
+\restylefloat{Algoritmos}
+
+\newenvironment{algoritmo}
+{\refstepcounter{algoritmo}
+\addcontentsline{aud}{algoritmo}{\numberline{Algoritmo \thealgoritmo\ }}
+\begin{Algoritmos}\begin{center}
+}
+{\end{center}\end{Algoritmos}}
+
+\newlistof{algoritmos}{exa}{\listAlgoritmosname}
+\newcommand{\algoritmos}[1]{%
+\refstepcounter{algoritmos}
+\par\noindent{\normalsize{\textbf{Algoritmo \thealgoritmos: #1}}}
+\addcontentsline{exa}{algoritmos}{ALGORITMO \protect\numberline{\thealgoritmos\ -- \ }#1}\par}
+
+\newcommand{\listaalgoritmos}
+{%
+  \begin{newpage}
+    \thispagestyle{empty}
+    \setlength{\baselineskip}{1.5\baselineskip} % Espacamento: 1.5
+
+    \begin{center}
+      \textbf{LISTA DE ALGORITMOS} \\ [1.5\baselineskip]
+    \end{center}
+    
+    \@starttoc{exa}
+    
+  \end{newpage}
+}
+
+%\addcontentsline{toc}{chapter}{LISTA DE ALGORITMOS}
+ 
+% *********************************  Sumario ********************************* %
+
+% Para personalizar identação
+\cftsetindents{chapter}{0cm}{.4cm}
+\cftsetindents{section}{0cm}{1.0cm}
+\cftsetindents{subsection}{0cm}{1.4cm}
+\cftsetindents{subsubsection}{0cm}{1.8cm}
+\cftsetindents{paragraph}{0cm}{1.9cm}
+% \cftsetindents{subsubsubsection}{0cm}{1.4cm}
+
+% Para personalizar identação do título no sumário.
+\setlength{\cftchapindent}{0em}
+\setlength{\cftsecindent}{0em}
+\setlength{\cftsubsecindent}{0em}
+\setlength{\cftsubsubsecindent}{0em}
+\setlength{\cftparaindent}{0em}
+
+% Para personalizar espaçamento vertical depois.
+\renewcommand\cftchapafterpnum{\vskip 1.5pt}
+\renewcommand\cftsecafterpnum{\vskip 1.5pt}
+\renewcommand\cftsubsecafterpnum{\vskip 1.5pt}
+\renewcommand\cftsubsubsecafterpnum{\vskip 1.5pt}
+\renewcommand\cftparaafterpnum{\vskip 1.5pt}
+
+% Para personalizar espaçamento vertical antes.
+\setlength{\cftbeforechapskip}{0pt}
+\setlength{\cftbeforesecskip}{0pt}
+\setlength{\cftbeforesubsecskip}{0pt}
+\setlength{\cftbeforesubsubsecskip}{0pt}
+\setlength{\cftbeforeparaskip}{0pt}
+
+% Para personalizar a fonte
+\renewcommand{\cftchapfont}{\upshape\normalfont\bfseries}
+\renewcommand{\cftsecfont}{\normalfont\bfseries}
+\renewcommand{\cftsubsecfont}{\normalfont\itshape}
+\renewcommand{\cftsubsubsecfont}{\normalfont\itshape\bfseries}
+\renewcommand{\cftparafont}{\normalfont}
+
+% Para mudar o título de primeira seção para maíuscula.
+%\patchcmd{\l@chapter} % Command
+%{#1} % Code to replace
+%{\uppercase{#1}} % Code
+%{} % Sucess
+%{} % Failure
+
+% Para personalizar os pontos entre o título e a página.
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsubsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftparaleader}{\cftdotfill{\cftdotsep}}
+
+% Para personalizar o espaçamento entre listas.
+\setlength\cftparskip{-2pt}
+
+\newcommand{\sumario}
+{
+	\pagestyle{empty}
+	\begin{newpage}
+		\thispagestyle{empty}
+			\setlength{\baselineskip}{1.5\baselineskip} % Espacamento: 1.5
+			%\setlength{\baselineskip}{0.73\baselineskip} % Regra antiga.
+			
+		\begin{center}
+			\textbf{SUM\'ARIO} \\ [1.5\baselineskip]
+		\end{center}
+			\@starttoc{toc}
+			\clearpage
+	\end{newpage}
+	\pagestyle{myheadings}
+}
+
+\newbool{firstbib}
+\booltrue{firstbib}
+\preto{\bibitem}{\ifbool{firstbib}{\thispagestyle{fancy}\setbool{firstbib}{false}}{}}
+
+
+
